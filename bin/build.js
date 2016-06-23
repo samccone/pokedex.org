@@ -34,7 +34,9 @@ var CRITICAL_CSS_SPRITES_LINES = 8;
 module.exports = async function build(debug) {
 
   async function minifyCss(css) {
-    var processed = await postcss([ autoprefixer ]).process(css);
+    var processed = await postcss([autoprefixer({
+      browsers: ['Chrome 29'],
+    })]).process(css);
     css = processed.css;
     return cleanCss.minify(css).styles;
   }
@@ -79,7 +81,7 @@ module.exports = async function build(debug) {
       spritesCss.split('\n').slice(0, CRITICAL_CSS_SPRITES_LINES).join('\n');
 
     mainCss = await inlineSvgs(mainCss);
-    mainCss = await cleanCss.minify(mainCss).styles;
+    mainCss = await minifyCss(mainCss);
     var muiCss = await fs.readFileAsync('./src/vendor/mui.css', 'utf-8');
     muiCss = await minifyCss(muiCss);
     return html
