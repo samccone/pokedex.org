@@ -258,7 +258,7 @@ button {
   width: 140px;
   height: 140px;
   overflow: hidden;
-  display: inline-flex;
+  display: inline-block;
   list-style-type: none;
   cursor: pointer;
   z-index: 20000;
